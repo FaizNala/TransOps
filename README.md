@@ -64,15 +64,15 @@ Dibangun sebagai pemenuhan Technical Test — Engineer Lead.
 
 > Semua akun demo dibuat oleh `DatabaseSeeder`. Gunakan email berikut dengan kata sandi **`password`**.
 
-| Role | Email | Catatan |
-|---|---|---|
-| **Admin** | `admin@transops.test` | Admin Pool — akses seluruh modul |
-| **Approver** | `budi@transops.test` | Manager Operasi Transport |
-| **Approver** | `citra@transops.test` | Manager Keuangan |
-| **Approver** | `dedi@transops.test` | Supervisor Site Malili |
-| **Approver** | `eka@transops.test` | Supervisor Transportasi |
-| **Approver** | `fajar@transops.test` | Kepala Pool Kendaraan |
-| **Approver** | `rina@transops.test` | Manager HR & GA |
+| Role | Email | Password | Catatan |
+|---|---|---|---|
+| **Admin** | `admin@transops.test` | `password` | Admin Pool — akses seluruh modul |
+| **Approver** | `budi@transops.test` | `password` | Manager Operasi Transport |
+| **Approver** | `citra@transops.test` | `password` | Manager Keuangan |
+| **Approver** | `dedi@transops.test` | `password` | Supervisor Site Malili |
+| **Approver** | `eka@transops.test` | `password` | Supervisor Transportasi |
+| **Approver** | `fajar@transops.test` | `password` | Kepala Pool Kendaraan |
+| **Approver** | `rina@transops.test` | `password` | Manager HR & GA |
 
 **Catatan:** kata sandi berformat *plain text* pada tabel hanya untuk memudahkan pengujian; penyimpanan aktual menggunakan hash bcrypt.
 
@@ -94,9 +94,11 @@ Dibangun sebagai pemenuhan Technical Test — Engineer Lead.
 
 ```bash
 composer install
-cp .env.example .env        # Windows: copy .env.example .env
+cp .env.example .env
 php artisan key:generate
 ```
+
+> **Windows (PowerShell):** `copy .env.example .env` atau `Copy-Item .env.example .env`; Windows Command Prompt: `copy .env.example .env`.
 
 Sesuaikan `.env` sesuai environment:
 
@@ -108,9 +110,22 @@ DB_CONNECTION=sqlite        # atau mysql
 
 Untuk SQLite, buat file database:
 
+**Linux / macOS (bash):**
 ```bash
-touch database/database.sqlite   # Windows: New-Item database/database.sqlite
+touch database/database.sqlite
 ```
+
+**Windows (PowerShell):**
+```powershell
+New-Item -ItemType File -Path database\database.sqlite
+```
+
+**Windows (Command Prompt):**
+```cmd
+type nul > database\database.sqlite
+```
+
+> Manual: buat file kosong bernama `database.sqlite` di folder `database/` (pastikan foldernya ada). Sebagian besar sistem sudah menyertakan file ini di repo; kalau sudah ada, langkah di atas bisa dilewati.
 
 ### 2. Migrasi & Seeder
 
