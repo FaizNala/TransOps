@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\BookingStatus;
+use Database\Factories\BookingFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 #[Fillable(['vehicle_id', 'requester_id', 'driver_id', 'purpose', 'destination', 'start_at', 'end_at', 'status', 'created_by', 'departure_at', 'return_at', 'odometer_start', 'odometer_end', 'distance_km', 'note'])]
 class Booking extends Model
 {
+    /** @use HasFactory<BookingFactory> */
     use HasFactory;
 
     protected static function booted(): void
@@ -23,8 +25,6 @@ class Booking extends Model
                     ->whereYear('created_at', date('Y'))
                     ->whereMonth('created_at', date('m'))
                     ->count() + 1;
-                // ponytail: count-based sequence; rawan race hanya pada konkurensi ketat,
-                // cukup untuk demo — pakai tabel sequence bila produksi.
                 $booking->booking_number = "BK-{$month}-".str_pad((string) $sequence, 4, '0', STR_PAD_LEFT);
             }
         });
@@ -44,32 +44,38 @@ class Booking extends Model
         ];
     }
 
-    public function vehicle(): BelongsTo
+    /** @return BelongsTo<Vehicle, $this> */
+    public function vehicle()
     {
         return $this->belongsTo(Vehicle::class);
     }
 
-    public function requester(): BelongsTo
+    /** @return BelongsTo<Employee, $this> */
+    public function requester()
     {
         return $this->belongsTo(Employee::class, 'requester_id');
     }
 
-    public function driver(): BelongsTo
+    /** @return BelongsTo<Driver, $this> */
+    public function driver()
     {
         return $this->belongsTo(Driver::class);
     }
 
-    public function createdBy(): BelongsTo
+    /** @return BelongsTo<User, $this> */
+    public function createdBy()
     {
         return $this->belongsTo(User::class, 'created_by');
     }
 
-    public function approvals(): HasMany
+    /** @return HasMany<BookingApproval, $this> */
+    public function approvals()
     {
         return $this->hasMany(BookingApproval::class);
     }
 
-    public function fuelLogs(): HasMany
+    /** @return HasMany<FuelLog, $this> */
+    public function fuelLogs()
     {
         return $this->hasMany(FuelLog::class);
     }

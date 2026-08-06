@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\DriverStatus;
+use Database\Factories\DriverFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,6 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 #[Fillable(['employee_id', 'license_number', 'license_type', 'license_expiry', 'status'])]
 class Driver extends Model
 {
+    /** @use HasFactory<DriverFactory> */
     use HasFactory, SoftDeletes;
 
     protected function casts(): array
@@ -23,12 +25,14 @@ class Driver extends Model
         ];
     }
 
-    public function employee(): BelongsTo
+    /** @return BelongsTo<Employee, $this> */
+    public function employee()
     {
         return $this->belongsTo(Employee::class);
     }
 
-    public function bookings(): HasMany
+    /** @return HasMany<Booking, $this> */
+    public function bookings()
     {
         return $this->hasMany(Booking::class);
     }

@@ -32,7 +32,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
  * @property int|null $employee_id
  * @property UserRole $role
  */
-#[Fillable(['name', 'email', 'password', 'employee_id', 'role'])]
+#[Fillable(['name', 'email', 'password', 'email_verified_at', 'employee_id', 'role'])]
 #[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]
 class User extends Authenticatable implements PasskeyUser
 {
@@ -54,12 +54,14 @@ class User extends Authenticatable implements PasskeyUser
         ];
     }
 
-    public function employee(): BelongsTo
+    /** @return BelongsTo<Employee, $this> */
+    public function employee()
     {
         return $this->belongsTo(Employee::class);
     }
 
-    public function bookingsCreated(): HasMany
+    /** @return HasMany<Booking, $this> */
+    public function bookingsCreated()
     {
         return $this->hasMany(Booking::class, 'created_by');
     }

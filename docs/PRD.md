@@ -5,9 +5,6 @@
 | **Nama Produk** | TransOps — Fleet Booking & Monitoring System |
 | **Versi Dokumen** | 1.0 |
 | **Tanggal** | 2026-08-04 |
-| **Status** | Draft Final — Siap Implementasi |
-| **Disusun oleh** | Product Owner & Engineer Lead |
-| **Referensi** | Technical Test Engineer Lead (`docs/EngineerLeadTest .md`) |
 
 ---
 
@@ -221,12 +218,3 @@ Produk ini adalah aplikasi web untuk **memonitor dan mengelola pemesanan kendara
 - Kendaraan sewa dicatat sebagai master dengan masa kontrak.
 - Satu pemesanan = satu perjalanan kendaraan (odometer berangkat/kembali).
 
----
-
-## 9. Deliverables Terkait
-
-| Dokumen | Tautan |
-|---|---|
-| Physical Data Model (12 tabel) | `docs/ERD.md` |
-| Activity Diagram Pemesanan | Akan menyusul |
-| README (kredensial, versi, panduan) | Akan menyusul |

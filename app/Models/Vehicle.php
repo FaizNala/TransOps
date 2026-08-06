@@ -6,6 +6,7 @@ use App\Enums\FuelType;
 use App\Enums\OwnershipType;
 use App\Enums\VehicleCategory;
 use App\Enums\VehicleStatus;
+use Database\Factories\VehicleFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -16,6 +17,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 #[Fillable(['plate_number', 'category', 'capacity', 'brand', 'model', 'year', 'ownership_type', 'rental_partner_id', 'rental_start_date', 'rental_end_date', 'fuel_type', 'tank_capacity', 'current_odometer', 'status', 'is_active'])]
 class Vehicle extends Model
 {
+    /** @use HasFactory<VehicleFactory> */
     use HasFactory, SoftDeletes;
 
     protected function casts(): array
@@ -35,27 +37,32 @@ class Vehicle extends Model
         ];
     }
 
-    public function rentalPartner(): BelongsTo
+    /** @return BelongsTo<RentalPartner, $this> */
+    public function rentalPartner()
     {
         return $this->belongsTo(RentalPartner::class);
     }
 
-    public function bookings(): HasMany
+    /** @return HasMany<Booking, $this> */
+    public function bookings()
     {
         return $this->hasMany(Booking::class);
     }
 
-    public function fuelLogs(): HasMany
+    /** @return HasMany<FuelLog, $this> */
+    public function fuelLogs()
     {
         return $this->hasMany(FuelLog::class);
     }
 
-    public function serviceSchedules(): HasMany
+    /** @return HasMany<ServiceSchedule, $this> */
+    public function serviceSchedules()
     {
         return $this->hasMany(ServiceSchedule::class);
     }
 
-    public function serviceLogs(): HasMany
+    /** @return HasMany<ServiceLog, $this> */
+    public function serviceLogs()
     {
         return $this->hasMany(ServiceLog::class);
     }

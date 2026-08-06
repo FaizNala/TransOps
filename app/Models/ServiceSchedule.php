@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\ServiceStatus;
+use Database\Factories\ServiceScheduleFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 #[Fillable(['vehicle_id', 'service_type', 'scheduled_date', 'scheduled_odometer', 'recurrence_km', 'recurrence_months', 'status', 'note'])]
 class ServiceSchedule extends Model
 {
+    /** @use HasFactory<ServiceScheduleFactory> */
     use HasFactory;
 
     protected function casts(): array
@@ -25,12 +27,14 @@ class ServiceSchedule extends Model
         ];
     }
 
-    public function vehicle(): BelongsTo
+    /** @return BelongsTo<Vehicle, $this> */
+    public function vehicle()
     {
         return $this->belongsTo(Vehicle::class);
     }
 
-    public function serviceLogs(): HasMany
+    /** @return HasMany<ServiceLog, $this> */
+    public function serviceLogs()
     {
         return $this->hasMany(ServiceLog::class, 'service_schedule_id');
     }

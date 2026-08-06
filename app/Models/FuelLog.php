@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Database\Factories\FuelLogFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 #[Fillable(['vehicle_id', 'booking_id', 'recorded_by', 'refueled_at', 'odometer', 'liters', 'price_per_liter', 'total_cost', 'station', 'is_full_tank', 'note'])]
 class FuelLog extends Model
 {
+    /** @use HasFactory<FuelLogFactory> */
     use HasFactory;
 
     protected function casts(): array
@@ -24,17 +26,20 @@ class FuelLog extends Model
         ];
     }
 
-    public function vehicle(): BelongsTo
+    /** @return BelongsTo<Vehicle, $this> */
+    public function vehicle()
     {
         return $this->belongsTo(Vehicle::class);
     }
 
-    public function booking(): BelongsTo
+    /** @return BelongsTo<Booking, $this> */
+    public function booking()
     {
         return $this->belongsTo(Booking::class);
     }
 
-    public function recordedBy(): BelongsTo
+    /** @return BelongsTo<Employee, $this> */
+    public function recordedBy()
     {
         return $this->belongsTo(Employee::class, 'recorded_by');
     }
